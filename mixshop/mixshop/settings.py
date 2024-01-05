@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+
+from django.contrib import staticfiles
+from django.template.context_processors import media
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,7 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # My Applications
     'home.apps.HomeConfig',
+    'accounts.apps.AccountsConfig',
+    'products.apps.ProductsConfig',
 ]
 
 MIDDLEWARE = [
@@ -117,9 +125,27 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+# URL-Prefix für statische Dateien (CSS, JavaScript, Bilder)
+STATIC_URL = '/static/'
+
+# Verzeichnis für App-spezifische statische Dateien (wenn vorhanden)
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
+
+# Verzeichnis für gesammelte statische Dateien (wo sie gespeichert werden)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# URL-Prefix für Mediendateien (Datei-Uploads)
+MEDIA_URL = '/media/'
+
+# Verzeichnis, in dem hochgeladene Mediendateien gespeichert werden
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
+#LOGIN_URL = '/users/login/'
